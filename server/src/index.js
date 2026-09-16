@@ -7,7 +7,12 @@ import { errorHandler, notFound } from "./errors.js";
 
 const app = express();
 
-app.use(cors({ origin: config.clientOrigin }));
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || config.clientOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error("Not allowed by CORS"));
+  }
+}));
 app.use(express.json({ limit: "50kb" }));
 app.get("/health", (req, res) => res.json({ ok: true }));
 app.use("/api", router);
