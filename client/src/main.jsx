@@ -32,7 +32,7 @@ function App() {
         }
       });
     } catch {
-      throw new Error("API server is not reachable. Start the backend with npm run dev and check MONGO_URL in .env.");
+      throw new Error("API server is not reachable. Check that VITE_API_URL points to the deployed backend.");
     }
     if (response.status === 204) return null;
     const data = await response.json().catch(() => ({}));
