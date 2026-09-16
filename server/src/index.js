@@ -9,7 +9,8 @@ const app = express();
 
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || config.clientOrigins.includes(origin)) return callback(null, true);
+    const isAllowedVercelPreview = /^https:\/\/assesment-in-inspeller.*\.vercel\.app$/.test(origin || "");
+    if (!origin || config.clientOrigins.includes(origin) || isAllowedVercelPreview) return callback(null, true);
     return callback(new Error("Not allowed by CORS"));
   }
 }));
